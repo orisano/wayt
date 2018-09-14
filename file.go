@@ -2,8 +2,9 @@ package main
 
 import (
 	"flag"
-	"github.com/orisano/subflag"
 	"os"
+
+	"github.com/orisano/subflag"
 )
 
 type FileCommand struct {

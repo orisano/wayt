@@ -3,8 +3,9 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/orisano/subflag"
 	"net"
+
+	"github.com/orisano/subflag"
 )
 
 type TCPCommand struct {
