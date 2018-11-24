@@ -17,6 +17,8 @@ var (
 var ErrTimeout = errors.New("timeout")
 
 func main() {
+	log.SetFlags(0)
+	log.SetPrefix("wayt: ")
 	if err := run(); err != nil {
 		log.Fatal(err)
 	}
