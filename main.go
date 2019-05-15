@@ -4,6 +4,9 @@ import (
 	"errors"
 	"flag"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/orisano/subflag"
@@ -43,6 +46,9 @@ func run() error {
 func Loop() <-chan struct{} {
 	ch := make(chan struct{})
 	go func() {
+		sigCh := make(chan os.Signal, 1)
+		signal.Notify(sigCh, syscall.SIGKILL, syscall.SIGTERM)
+
 		timer := time.NewTimer(timeout)
 		defer timer.Stop()
 
@@ -54,6 +60,9 @@ func Loop() <-chan struct{} {
 			case <-ticker.C:
 				ch <- struct{}{}
 			case <-timer.C:
+				close(ch)
+				return
+			case <-sigCh:
 				close(ch)
 				return
 			}
