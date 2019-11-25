@@ -7,12 +7,14 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 	"github.com/orisano/subflag"
+	"github.com/xo/dburl"
 )
 
 type SQLCommand struct {
 	dsn    string
 	driver string
 	query  string
+	url    string
 }
 
 func (c *SQLCommand) FlagSet() *flag.FlagSet {
@@ -20,12 +22,21 @@ func (c *SQLCommand) FlagSet() *flag.FlagSet {
 	flagSet.StringVar(&c.dsn, "dsn", c.dsn, "data source name (required)")
 	flagSet.StringVar(&c.driver, "d", c.driver, "driver")
 	flagSet.StringVar(&c.query, "q", c.query, "query")
+	flagSet.StringVar(&c.url, "url", c.url, "url")
 	return flagSet
 }
 
 func (c *SQLCommand) Run(args []string) error {
-	if len(c.dsn) == 0 {
+	if c.dsn == "" && c.url == "" {
 		return subflag.ErrInvalidArguments
+	}
+	if c.url != "" {
+		u, err := dburl.Parse(c.url)
+		if err != nil {
+			return subflag.ErrInvalidArguments
+		}
+		c.driver = u.Driver
+		c.dsn = u.DSN
 	}
 
 	for range Loop() {
