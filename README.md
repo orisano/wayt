@@ -23,6 +23,7 @@ Usage of wayt:
     	interval (default 1s)
   -t duration
     	timeout (default 5m0s)
+  -x	execute command
 ```
 
 ## Author
