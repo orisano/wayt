@@ -1,8 +1,11 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"flag"
+	"fmt"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
@@ -14,6 +17,7 @@ type SQLCommand struct {
 	driver string
 	query  string
 	url    string
+	envKey string
 }
 
 func (c *SQLCommand) FlagSet() *flag.FlagSet {
@@ -22,10 +26,14 @@ func (c *SQLCommand) FlagSet() *flag.FlagSet {
 	flagSet.StringVar(&c.driver, "d", c.driver, "driver")
 	flagSet.StringVar(&c.query, "q", c.query, "query")
 	flagSet.StringVar(&c.url, "url", c.url, "url")
+	flagSet.StringVar(&c.envKey, "env", c.envKey, "")
 	return flagSet
 }
 
 func (c *SQLCommand) Run(args []string) error {
+	if c.url == "" {
+		c.url = os.Getenv(c.envKey)
+	}
 	if c.dsn == "" && c.url == "" {
 		return flag.ErrHelp
 	}
@@ -38,22 +46,32 @@ func (c *SQLCommand) Run(args []string) error {
 		c.dsn = u.DSN
 	}
 
-	for range Loop() {
-		db, err := sql.Open(c.driver, c.dsn)
-		if err != nil {
-			continue
+	ctx := CommandContext()
+	for range Continue(ctx, interval) {
+		permanent, err := c.Query(ctx)
+		if permanent {
+			return err
 		}
-		rows, err := db.Query(c.query)
-		if err != nil {
-			db.Close()
-			continue
-		}
-		ok := rows.Next()
-		rows.Close()
-		db.Close()
-		if ok {
-			return nil
+		if err := ctx.Err(); err != nil {
+			return err
 		}
 	}
-	return ErrTimeout
+	return ctx.Err()
+}
+
+func (c *SQLCommand) Query(ctx context.Context) (bool, error) {
+	db, err := sql.Open(c.driver, c.dsn)
+	if err != nil {
+		return true, fmt.Errorf("open db: %w", err)
+	}
+	defer db.Close()
+	rows, err := db.QueryContext(ctx, c.query)
+	if err != nil {
+		return false, err
+	}
+	defer rows.Close()
+	if !rows.Next() {
+		return false, rows.Err()
+	}
+	return true, nil
 }

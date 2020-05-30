@@ -19,10 +19,11 @@ func (c *FileCommand) Run(args []string) error {
 	if len(c.path) == 0 {
 		return flag.ErrHelp
 	}
-	for range Loop() {
+	ctx := CommandContext()
+	for range Continue(ctx, interval) {
 		if _, err := os.Lstat(c.path); err == nil {
 			return nil
 		}
 	}
-	return ErrTimeout
+	return ctx.Err()
 }

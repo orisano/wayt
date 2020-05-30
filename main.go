@@ -1,10 +1,11 @@
 package main
 
 import (
-	"errors"
+	"context"
 	"flag"
 	"log"
 	"os"
+	"os/exec"
 	"os/signal"
 	"syscall"
 	"time"
@@ -17,7 +18,9 @@ var (
 	timeout  = 5 * time.Minute
 )
 
-var ErrTimeout = errors.New("timeout")
+var (
+	deadline time.Time
+)
 
 func main() {
 	log.SetFlags(0)
@@ -30,39 +33,94 @@ func main() {
 func run() error {
 	flag.DurationVar(&interval, "i", interval, "interval")
 	flag.DurationVar(&timeout, "t", timeout, "timeout")
+	x := flag.Bool("x", false, "execute command")
 	flag.Parse()
-	return subflag.SubCommand(flag.Args(), []subflag.Command{
+
+	deadline = time.Now().Add(timeout)
+
+	args := flag.Args()
+	commands := []subflag.Command{
 		&TCPCommand{},
 		&SQLCommand{
 			driver: "mysql",
 			query:  "SELECT 1;",
+			envKey: "DB_URL",
 		},
-		&HTTPCommand{},
+		&HTTPCommand{
+			method: "GET",
+		},
 		&FileCommand{},
 		&ShellCommand{},
-	})
+	}
+
+	if len(args) == 0 {
+		// for usage
+		return subflag.SubCommand(args, commands)
+	}
+	subCommand := args[0]
+	for _, command := range commands {
+		flagSet := command.FlagSet()
+		if flagSet.Name() != subCommand {
+			continue
+		}
+		if err := flagSet.Parse(args[1:]); err != nil {
+			return err
+		}
+
+		subArgs := flagSet.Args()
+		err := command.Run(nil)
+		if err == flag.ErrHelp && flagSet.Usage != nil {
+			flagSet.Usage()
+		}
+		if err != nil {
+			return err
+		}
+		if *x && len(subArgs) > 0 {
+			cmd := exec.Command(subArgs[0], subArgs[1:]...)
+			cmd.Stdin = os.Stdin
+			cmd.Stdout = os.Stdout
+			cmd.Stderr = os.Stderr
+			cmd.Env = os.Environ()
+			return cmd.Run()
+		}
+		return nil
+	}
+	// for usage
+	return subflag.SubCommand(args, commands)
 }
 
-func Loop() <-chan struct{} {
-	ch := make(chan struct{})
+func CommandContext() context.Context {
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, syscall.SIGKILL, syscall.SIGTERM, syscall.SIGINT)
+
+	ctx := context.Background()
+	ctx, cancel := context.WithDeadline(ctx, deadline)
 	go func() {
-		sigCh := make(chan os.Signal, 1)
-		signal.Notify(sigCh, syscall.SIGKILL, syscall.SIGTERM)
+		select {
+		case <-sigCh:
+			cancel()
+		case <-ctx.Done():
+		}
+	}()
+	return ctx
+}
 
-		timer := time.NewTimer(timeout)
-		defer timer.Stop()
-
-		ch <- struct{}{}
-
-		ticker := time.NewTicker(interval)
+func Continue(ctx context.Context, interval time.Duration) <-chan struct{} {
+	ch := make(chan struct{}, 1)
+	ch <- struct{}{}
+	t := time.NewTicker(interval)
+	go func() {
+		defer t.Stop()
 		for {
 			select {
-			case <-ticker.C:
-				ch <- struct{}{}
-			case <-timer.C:
+			case <-t.C:
+			case <-ctx.Done():
 				close(ch)
 				return
-			case <-sigCh:
+			}
+			select {
+			case ch <- struct{}{}:
+			case <-ctx.Done():
 				close(ch)
 				return
 			}

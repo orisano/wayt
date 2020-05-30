@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"net"
 )
@@ -20,13 +19,16 @@ func (c *TCPCommand) Run(args []string) error {
 	if len(c.address) == 0 {
 		return flag.ErrHelp
 	}
+	ctx := CommandContext()
 	var d net.Dialer
-	for range Loop() {
-		conn, err := d.DialContext(context.Background(), "tcp", c.address)
+	for range Continue(ctx, interval) {
+		conn, err := d.DialContext(ctx, "tcp", c.address)
 		if err == nil {
-			conn.Close()
-			return nil
+			return conn.Close()
+		}
+		if err := ctx.Err(); err != nil {
+			return err
 		}
 	}
-	return ErrTimeout
+	return ctx.Err()
 }
