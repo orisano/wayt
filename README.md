@@ -1,5 +1,5 @@
 # wayt
- wayt is a command utility of a wait.
+wayt is a command utility of a wait.
 
 ## Installation
 ```bash
