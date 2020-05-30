@@ -6,7 +6,6 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
-	"github.com/orisano/subflag"
 	"github.com/xo/dburl"
 )
 
@@ -28,12 +27,12 @@ func (c *SQLCommand) FlagSet() *flag.FlagSet {
 
 func (c *SQLCommand) Run(args []string) error {
 	if c.dsn == "" && c.url == "" {
-		return subflag.ErrInvalidArguments
+		return flag.ErrHelp
 	}
 	if c.url != "" {
 		u, err := dburl.Parse(c.url)
 		if err != nil {
-			return subflag.ErrInvalidArguments
+			return fmt.Errorf("parse dburl: %w", err)
 		}
 		c.driver = u.Driver
 		c.dsn = u.DSN

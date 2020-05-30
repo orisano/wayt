@@ -3,8 +3,6 @@ package main
 import (
 	"flag"
 	"os"
-
-	"github.com/orisano/subflag"
 )
 
 type FileCommand struct {
@@ -19,7 +17,7 @@ func (c *FileCommand) FlagSet() *flag.FlagSet {
 
 func (c *FileCommand) Run(args []string) error {
 	if len(c.path) == 0 {
-		return subflag.ErrInvalidArguments
+		return flag.ErrHelp
 	}
 	for range Loop() {
 		if _, err := os.Lstat(c.path); err == nil {

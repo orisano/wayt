@@ -4,8 +4,6 @@ import (
 	"flag"
 	"net/http"
 	"net/url"
-
-	"github.com/orisano/subflag"
 )
 
 type HTTPCommand struct {
@@ -19,8 +17,11 @@ func (c *HTTPCommand) FlagSet() *flag.FlagSet {
 }
 
 func (c *HTTPCommand) Run(args []string) error {
+	if c.urlStr == "" {
+		return flag.ErrHelp
+	}
 	if _, err := url.ParseRequestURI(c.urlStr); err != nil {
-		return subflag.ErrInvalidArguments
+		return fmt.Errorf("parse url: %w", err)
 	}
 	for range Loop() {
 		resp, err := http.Get(c.urlStr)

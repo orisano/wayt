@@ -4,8 +4,6 @@ import (
 	"context"
 	"flag"
 	"net"
-
-	"github.com/orisano/subflag"
 )
 
 type TCPCommand struct {
@@ -20,7 +18,7 @@ func (c *TCPCommand) FlagSet() *flag.FlagSet {
 
 func (c *TCPCommand) Run(args []string) error {
 	if len(c.address) == 0 {
-		return subflag.ErrInvalidArguments
+		return flag.ErrHelp
 	}
 	var d net.Dialer
 	for range Loop() {

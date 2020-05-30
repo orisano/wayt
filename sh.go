@@ -4,8 +4,6 @@ import (
 	"flag"
 	"io/ioutil"
 	"os/exec"
-
-	"github.com/orisano/subflag"
 )
 
 type ShellCommand struct {
@@ -20,7 +18,7 @@ func (c *ShellCommand) FlagSet() *flag.FlagSet {
 
 func (c *ShellCommand) Run(args []string) error {
 	if len(c.cmd) == 0 {
-		return subflag.ErrInvalidArguments
+		return flag.ErrHelp
 	}
 	for range Loop() {
 		cmd := exec.Command("/bin/sh", "-c", c.cmd)
