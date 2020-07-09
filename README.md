@@ -17,6 +17,7 @@ Available SubCommands:
  - http
  - file
  - sh
+ - grpc
 
 $ wayt -h
 Usage of wayt:
@@ -75,6 +76,28 @@ $ wayt sh -h
 Usage of sh:
   -c string
     	command (required)
+```
+
+### wayt grpc
+```
+$ wayt grpc -h
+Usage of grpc:
+  -addr string
+    	address (required)
+  -service string
+    	service name to check
+  -tls
+    	use TLS
+  -tls-ca-cert string
+    	trusted certificates for verifying server
+  -tls-client-cert string
+
+  -tls-client-key string
+
+  -tls-no-verify
+    	do not verify the certificate
+  -tls-server-name string
+
 ```
 
 ## Author
