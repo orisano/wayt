@@ -51,6 +51,7 @@ func run() error {
 		},
 		&FileCommand{},
 		&ShellCommand{},
+		&GRPCCommand{},
 	}
 
 	if len(args) == 0 {
