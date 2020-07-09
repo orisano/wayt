@@ -25,7 +25,11 @@ var (
 func main() {
 	log.SetFlags(0)
 	log.SetPrefix("wayt: ")
-	if err := run(); err != nil {
+	err := run()
+	if err == flag.ErrHelp {
+		os.Exit(2)
+	}
+	if err != nil {
 		log.Fatal(err)
 	}
 }
