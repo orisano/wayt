@@ -96,7 +96,7 @@ func run() error {
 
 func CommandContext() context.Context {
 	sigCh := make(chan os.Signal, 1)
-	signal.Notify(sigCh, syscall.SIGKILL, syscall.SIGTERM, syscall.SIGINT)
+	signal.Notify(sigCh, syscall.SIGTERM, syscall.SIGINT)
 
 	ctx := context.Background()
 	ctx, cancel := context.WithDeadline(ctx, deadline)
