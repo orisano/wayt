@@ -7,7 +7,7 @@ require (
 	github.com/lib/pq v1.10.6
 	github.com/orisano/subflag v1.0.0
 	github.com/xo/dburl v0.10.0
-	golang.org/x/net v0.0.0-20220526153639-5463443f8c37 // indirect
-	google.golang.org/genproto v0.0.0-20220527130721-00d5c0f3be58 // indirect
-	google.golang.org/grpc v1.46.2
+	golang.org/x/net v0.0.0-20220531201128-c960675eff93 // indirect
+	google.golang.org/genproto v0.0.0-20220531173845-685668d2de03 // indirect
+	google.golang.org/grpc v1.47.0
 )
