@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -14,11 +15,12 @@ import (
 )
 
 type SQLCommand struct {
-	dsn    string
-	driver string
-	query  string
-	url    string
-	envKey string
+	dsn     string
+	driver  string
+	query   string
+	url     string
+	envKey  string
+	verbose bool
 }
 
 func (c *SQLCommand) FlagSet() *flag.FlagSet {
@@ -28,6 +30,7 @@ func (c *SQLCommand) FlagSet() *flag.FlagSet {
 	flagSet.StringVar(&c.query, "q", c.query, "query")
 	flagSet.StringVar(&c.url, "url", c.url, "url")
 	flagSet.StringVar(&c.envKey, "env", c.envKey, "")
+	flagSet.BoolVar(&c.verbose, "v", c.verbose, "show verbose")
 	return flagSet
 }
 
@@ -52,6 +55,9 @@ func (c *SQLCommand) Run(args []string) error {
 		permanent, err := c.Query(ctx)
 		if permanent {
 			return err
+		}
+		if c.verbose {
+			log.Print("query: ", err)
 		}
 		if err := ctx.Err(); err != nil {
 			return err
