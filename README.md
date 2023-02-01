@@ -3,7 +3,7 @@ wayt is a command utility of a wait.
 
 ## Installation
 ```bash
-go get github.com/orisano/wayt
+go install github.com/orisano/wayt@latest
 ```
 
 ## How to use
