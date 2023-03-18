@@ -11,6 +11,8 @@ github.com/orisano/subflag v1.0.0 h1:I7LokATrdfomf0Kb9ry4LuR9ctGtA/CE5hm5+FqfmL4
 github.com/orisano/subflag v1.0.0/go.mod h1:FUd80amX680uKAse7zMROuXnA6yO0ebeDw+JIvctk+Y=
 github.com/sijms/go-ora/v2 v2.6.1 h1:eTUIf1O+LH51UNTWHgUIKVPj4IAqFmJD/bimH4EmPII=
 github.com/sijms/go-ora/v2 v2.6.1/go.mod h1:EHxlY6x7y9HAsdfumurRfTd+v8NrEOTR3Xl4FWlH6xk=
+github.com/sijms/go-ora/v2 v2.6.3 h1:Ahvr10fjWWFgKRlGqwIrXz3ptZFEHd5EtLp6Wcg4I/Q=
+github.com/sijms/go-ora/v2 v2.6.3/go.mod h1:EHxlY6x7y9HAsdfumurRfTd+v8NrEOTR3Xl4FWlH6xk=
 github.com/xo/dburl v0.13.0 h1:kq+oD1j/m8DnJ/p6G/LQXRosVchs8q5/AszEUKkvYfo=
 github.com/xo/dburl v0.13.0/go.mod h1:K6rSPgbVqP3ZFT0RHkdg/M3M5KhLeV2MaS/ZqaLd1kA=
 golang.org/x/net v0.8.0 h1:Zrh2ngAOFYneWTAIAPethzeaQLuHwhuBkuV6ZiRnUaQ=
@@ -28,3 +30,5 @@ google.golang.org/protobuf v1.26.0-rc.1/go.mod h1:jlhhOSvTdKEhbULTjvd4ARK9grFBp0
 google.golang.org/protobuf v1.26.0/go.mod h1:9q0QmTI4eRPtz6boOQmLYwt+qCgq0jsYwAQnmE0givc=
 google.golang.org/protobuf v1.29.1 h1:7QBf+IK2gx70Ap/hDsOmam3GE0v9HicjfEdAxE62UoM=
 google.golang.org/protobuf v1.29.1/go.mod h1:HV8QOd/L58Z+nl8r43ehVNZIU/HEI6OcFqwMG9pJV4I=
+google.golang.org/protobuf v1.30.0 h1:kPPoIgf3TsEvrm0PFe15JQ+570QVxYzEvvHqChK+cng=
+google.golang.org/protobuf v1.30.0/go.mod h1:HV8QOd/L58Z+nl8r43ehVNZIU/HEI6OcFqwMG9pJV4I=
