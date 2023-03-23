@@ -6,9 +6,9 @@ require (
 	github.com/go-sql-driver/mysql v1.7.0
 	github.com/lib/pq v1.10.7
 	github.com/orisano/subflag v1.0.0
-	github.com/sijms/go-ora/v2 v2.6.3
+	github.com/sijms/go-ora/v2 v2.6.5
 	github.com/xo/dburl v0.13.0
-	google.golang.org/grpc v1.53.0
+	google.golang.org/grpc v1.54.0
 )
 
 require (
@@ -16,6 +16,6 @@ require (
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/text v0.8.0 // indirect
-	google.golang.org/genproto v0.0.0-20230306155012-7f2fa6fef1f4 // indirect
+	google.golang.org/genproto v0.0.0-20230322174352-cde4c949918d // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 )
