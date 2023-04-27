@@ -3,7 +3,7 @@ module github.com/orisano/wayt
 go 1.18
 
 require (
-	github.com/go-sql-driver/mysql v1.7.0
+	github.com/go-sql-driver/mysql v1.7.1
 	github.com/lib/pq v1.10.8
 	github.com/orisano/subflag v1.0.0
 	github.com/sijms/go-ora/v2 v2.6.17
