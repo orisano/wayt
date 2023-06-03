@@ -671,8 +671,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ================================================================
 
-google.golang.org/genproto
-https://google.golang.org/genproto
+google.golang.org/genproto/googleapis/rpc
+https://google.golang.org/genproto/googleapis/rpc
 ----------------------------------------------------------------
 
                                  Apache License
