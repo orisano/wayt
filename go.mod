@@ -6,7 +6,7 @@ require (
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/lib/pq v1.10.9
 	github.com/orisano/subflag v1.0.0
-	github.com/sijms/go-ora/v2 v2.8.13
+	github.com/sijms/go-ora/v2 v2.8.14
 	github.com/xo/dburl v0.23.0
 	google.golang.org/grpc v1.63.2
 )
