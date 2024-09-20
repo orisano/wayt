@@ -10,7 +10,7 @@ require (
 	github.com/orisano/subflag v1.0.0
 	github.com/sijms/go-ora/v2 v2.8.21
 	github.com/xo/dburl v0.23.2
-	google.golang.org/grpc v1.66.2
+	google.golang.org/grpc v1.67.0
 )
 
 require (
