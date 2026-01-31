@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/go-sql-driver/mysql v1.9.3
-	github.com/lib/pq v1.11.0
+	github.com/lib/pq v1.11.1
 	github.com/orisano/subflag v1.0.0
 	github.com/sijms/go-ora/v2 v2.9.0
 	github.com/xo/dburl v0.24.2
