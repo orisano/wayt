@@ -1,6 +1,6 @@
 module github.com/orisano/wayt
 
-go 1.25.0
+go 1.26.2
 
 require (
 	github.com/go-sql-driver/mysql v1.9.3
@@ -13,9 +13,9 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.2.0 // indirect
-	golang.org/x/net v0.52.0 // indirect
-	golang.org/x/sys v0.42.0 // indirect
-	golang.org/x/text v0.35.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260401024825-9d38bb4040a9 // indirect
+	golang.org/x/net v0.53.0 // indirect
+	golang.org/x/sys v0.43.0 // indirect
+	golang.org/x/text v0.36.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260406210006-6f92a3bedf2d // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 )
